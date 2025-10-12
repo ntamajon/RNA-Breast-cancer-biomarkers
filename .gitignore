@@ -1,0 +1,45 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.joblib
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Datos grandes ---
+raw/
+processed/
+*.csv
+*.tsv
+*.parquet
+*.zip
+*.gz
+*.h5
+*.hdf5
+
+# --- Modelos y outputs ---
+models/
+outputs/
+results/
+*.pth
+*.h5
+*.ckpt
+
+# --- Configuración y entorno ---
+.env
+.venv/
+venv/
+*.log
+*.bak
+*.tmp
+
+# --- Sistema ---
+.DS_Store
+Thumbs.db
+
+# --- VSCode / IDEs ---
+.vscode/
+.idea/
