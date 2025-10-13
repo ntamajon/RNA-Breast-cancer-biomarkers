@@ -1,4 +1,4 @@
-from etl import import_parse, cleaning, merging, export
+from pipelines.etl import import_parse, cleaning, merging, export
 from src.utils.path_utils import p
 from src.utils.logger import get_logger
 

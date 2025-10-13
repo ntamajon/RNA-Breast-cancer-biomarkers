@@ -3,7 +3,6 @@ import numpy as np
 import os
 from src.utils.logger import get_logger
 from src.utils.path_utils import p
-from etl.export import *
 
 logger = get_logger(__name__, log_file="pipeline.log")
 
@@ -33,7 +32,7 @@ def data_preprocessing() -> pd.DataFrame:
     gene_pam50_redux.insert(0, 'SampleID', gene_pam50['SampleID'])
     gene_pam50_redux.insert(13622, 'pam50 subtype', gene_pam50['pam50 subtype'])
 
-    logger.info("Exporting reduced dataset")
-    #exporting reduced dataset
-    gene_pam50_redux.to_csv(p("processed","gene_pam50_redux.csv"))
+    logger.info("Generating reduced dataset")
+    
+    return gene_pam50_redux
 

@@ -13,9 +13,9 @@ def data_export(merged_file):
     logger.info("Exporting dataset ready for analysis...")
 
     output_path = p("data", "processed", f"{merged_file}.csv")
-    merged_file.to_csv(p("processed", output_path), index=False)
+    merged_file.to_csv(output_path, index=False)
 
-    return logger.info(f"Exported file in: {p("processed", {merged_file}.csv)}")
+    return logger.info(f"Exported file in: {output_path}")
 
 
     

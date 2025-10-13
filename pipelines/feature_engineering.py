@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import os
 from sklearn.model_selection import train_test_split
@@ -13,9 +12,8 @@ from preprocessing import *
 
 logger = get_logger(__name__, log_file="pipeline.log")
 
-def feature_engineering():
-    #Importing the reduced dataset
-    gene_pam50_redux = pd.read_csv(p("processed", "gene_pam50_redux.csv"), index_col=0)
+def feature_engineering(gene_pam50_redux):
+    
 
     logger.info("Initializing train - validation - test split for the reduced dataset")
 
@@ -57,15 +55,11 @@ def feature_engineering():
     X_val_pca_df = pd.DataFrame(X_val_pca, columns=[f"PC{i+1}" for i in range(50)], index=X_val.index)
     X_test_pca_df = pd.DataFrame(X_test_pca, columns=[f"PC{i+1}" for i in range(50)], index=X_test.index)
 
-    logger.info("Exporting X_train_pca, X_val_pca, X_test_pca, y_train, y_val, y_test")
+    logger.info("Generating X_train_pca, X_val_pca, X_test_pca, y_train, y_val, y_test...")
 
-    X_train_pca_df.to_csv(p("processed", "X_train_pc.csv"))
-    X_val_pca_df.to_csv(p("processed", "X_val_pc.csv"))
-    X_test_pca_df.to_csv(p("processed", "X_test_pc.csv"))
-
-    y_train.to_csv(p("processed", "y_train.csv"))
-    y_val.to_csv(p("processed", "y_val.csv"))
-    y_test.to_csv(p("processed","y_test.csv"))
     
+    return X_train_pca_df, X_val_pca_df, X_test_pca_df, y_train, y_val, y_test
+
+#X_train, X_val, X_test, y_train, y_val, y_test = feature_engineering(processed)
 
 
