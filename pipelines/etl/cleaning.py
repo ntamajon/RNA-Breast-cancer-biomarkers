@@ -9,6 +9,7 @@ def sample_cleaner(gene_df) -> pd.DataFrame:
     """
     Cleans gene data file
     """
+    
     logger.info("Checking missing gene data for gene expression file...")
     gexp_columns = gene_df.columns
 
@@ -21,6 +22,18 @@ def sample_cleaner(gene_df) -> pd.DataFrame:
         raise ValueError(f"{missing_samples} has missing gene data")
     else:
         logger.info("No missing gene data")
+    
+    logger.info("Trasposing and removing data")
+    #trasposing gene_exp_df
+    gene_df = gene_df.T.reset_index()
+
+    #removing index after trasposing
+    gene_df.columns = gene_df.iloc[0]
+    gene_df = gene_df.drop(gene_df.index[0])
+    gene_df = gene_df.reset_index(drop=True)
+
+    #renaming the column Unnamed
+    gene_df.rename(columns={'Unnamed: 0': 'SampleID'}, inplace=True)
 
     return gene_df
 

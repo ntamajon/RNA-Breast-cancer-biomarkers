@@ -5,7 +5,6 @@ import os
 import sys
 from sklearn.pipeline import Pipeline
 from src.utils.logger import get_logger
-from feature_engineering import *
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
@@ -14,17 +13,8 @@ from sklearn.metrics import classification_report, confusion_matrix, f1_score
 
 logger = get_logger(__name__, log_file="pipeline.log")
 
-def model_train():
-    #Importing datasets
-    logger.info("Importing datasets into model training...")
-    X_train_pc = pd.read_csv(p("processed","X_train_pc.csv"), index_col=0)
-    X_val_pc = pd.read_csv(p("processed", "X_val_pc.csv"), index_col=0)
-    X_test_pc = pd.read_csv(p("processed", "X_test_pc.csv"), index_col=0)
-
-    y_train = pd.read_csv(p("processed", "y_train.csv"), index_col=0)
-    y_val = pd.read_csv(p("processed", "y_val.csv"), index_col=0)
-    y_test = pd.read_csv(p("processed", "y_test.csv"),index_col=0)
-
+def model_train(X_train_pc, X_val_pc, X_test_pc, y_train, y_val, y_test):
+    
     logger.info("Encoding labels...")
     le = LabelEncoder()
     y_train_enc = le.fit_transform(y_train)

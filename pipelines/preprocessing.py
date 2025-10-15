@@ -4,13 +4,11 @@ import os
 from src.utils.logger import get_logger
 from src.utils.path_utils import p
 
-logger = get_logger(__name__, log_file="pipeline.log")
+logger = get_logger("pipeline", log_file="pipeline.log")
 
 logger.info("Initializing data preprocessing for training...")
 
-def data_preprocessing() -> pd.DataFrame:
-    gene_pam50 = pd.read_csv(p("processed", "gene_pam50.csv"))
-
+def data_preprocessing(gene_pam50) -> pd.DataFrame:
     #numeric columns
     num_cols = list(gene_pam50.columns[1: (len(gene_pam50.columns)-1)])
 

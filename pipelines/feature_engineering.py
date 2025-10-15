@@ -8,9 +8,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 from src.utils.logger import get_logger
-from preprocessing import *
 
-logger = get_logger(__name__, log_file="pipeline.log")
+logger = get_logger("pipeline", log_file="pipeline.log")
 
 def feature_engineering(gene_pam50_redux):
     
@@ -25,10 +24,15 @@ def feature_engineering(gene_pam50_redux):
     logger.info(f"X sets - Train: {X_train.shape}, Val: {X_val.shape}, Test: {X_test.shape}")
     logger.info(f"y sets - Train: {y_train.shape}, Val: {y_val.shape}, Test: {y_test.shape}")
 
+    #converting object data to numeric before scaling
+    X_train = X_train.apply(pd.to_numeric, errors='ignore')
+    X_val = X_val.apply(pd.to_numeric, errors='ignore')
+    X_test = X_test.apply(pd.to_numeric, errors='ignore')
+
     #Separating X_train numeric features from 'SampleID' (object) for scaling
-    X_train_num = X_train.select_dtypes(include=['number'])
-    X_val_num = X_val.select_dtypes(include=['number'])
-    X_test_num = X_test.select_dtypes(include=['number'])
+    X_train_num = X_train.select_dtypes(include=['int64', 'float64'])
+    X_val_num = X_val.select_dtypes(include=['int64', 'float64'])
+    X_test_num = X_test.select_dtypes(include=['int64', 'float64'])
 
     logger.info("Scaling numerical variables")
     scaler = StandardScaler()

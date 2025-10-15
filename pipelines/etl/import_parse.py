@@ -3,7 +3,7 @@ import pandas as pd
 from src.utils.path_utils import p
 from src.utils.logger import get_logger
 
-logger = get_logger(__name__, log_file="pipeline.log")
+logger = get_logger("pipeline", log_file="pipeline.log")
 
 logger.info("Loading and decompressing files...")
 def read_gene(path) -> pd.DataFrame:
@@ -19,7 +19,7 @@ def parse_series_matrix(file_path) -> pd.DataFrame:
     """
     
     logger.info("Reading the file per line")
-    with gzip.open(file_path, "rt") as f:
+    with open(file_path, "rt") as f:
         lines = [l.strip() for l in f if l.startswith("!Sample_")]
 
     # tsample titles

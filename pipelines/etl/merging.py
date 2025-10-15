@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from src.utils.logger import get_logger
 
-logger = get_logger(__name__, log_file="pipeline.log")
+logger = get_logger("pipeline", log_file="pipeline.log")
 
 def data_merge(metadata_1, metadata_2, gene_df) -> pd.DataFrame:
     """
