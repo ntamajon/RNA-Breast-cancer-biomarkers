@@ -8,7 +8,7 @@ logger = get_logger("pipeline", log_file="pipeline.log")
 
 logger.info("Initializing data preprocessing for training...")
 
-def data_preprocessing(gene_pam50) -> pd.DataFrame:
+def data_preprocessing(gene_pam50):
     #numeric columns
     num_cols = list(gene_pam50.columns[1: (len(gene_pam50.columns)-1)])
 

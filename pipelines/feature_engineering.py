@@ -8,6 +8,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 from src.utils.logger import get_logger
+import joblib
+from pathlib import Path
 
 logger = get_logger("pipeline", log_file="pipeline.log")
 
@@ -36,6 +38,10 @@ def feature_engineering(gene_pam50_redux):
 
     logger.info("Scaling numerical variables")
     scaler = StandardScaler()
+    scaler_path = Path("artifacts/scaler.joblib")
+    scaler_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(scaler, scaler_path)
+
     X_train_scaled = scaler.fit_transform(X_train_num)
     X_val_scaled = scaler.transform(X_val_num)
     X_test_scaled = scaler.transform(X_test_num)
@@ -47,6 +53,9 @@ def feature_engineering(gene_pam50_redux):
 
     logger.info("Performing PCA with 50 components for around 60 percent of variance explained")
     pca_2 = PCA(n_components=50)
+    pca_path = Path("artifacts/pca.joblib")
+    pca_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(pca_2, pca_path)
     X_train_pca = pca_2.fit_transform(X_train_scaled_df)
 
     X_train_pca_df = pd.DataFrame(X_train_pca, columns=[f"PC{i+1}" for i in range(50)], index=X_train.index)

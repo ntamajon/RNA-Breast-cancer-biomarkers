@@ -10,6 +10,8 @@ from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 from sklearn.utils.class_weight import compute_sample_weight
 from sklearn.metrics import classification_report, confusion_matrix, f1_score
+import joblib
+from pathlib import Path
 
 logger = get_logger(__name__, log_file="pipeline.log")
 
@@ -17,6 +19,9 @@ def model_train(X_train_pc, X_val_pc, X_test_pc, y_train, y_val, y_test):
     
     logger.info("Encoding labels...")
     le = LabelEncoder()
+    lab_enc_path = Path("artifacts/lab_enc.joblib")
+    lab_enc_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(le, lab_enc_path)
     y_train_enc = le.fit_transform(y_train)
     y_val_enc = le.transform(y_val)
 
@@ -43,6 +48,10 @@ def model_train(X_train_pc, X_val_pc, X_test_pc, y_train, y_val, y_test):
     reg_alpha=4,
     reg_lambda=20)
 
+    xgb_model_path = Path("artifacts/xgb_model.joblib")
+    xgb_model_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(xgb_smoted, xgb_model_path)
+
     #Training the model
     logger.info("Training the model...")
     xgb_smoted.fit(X_train_res, y_train_res)
@@ -52,12 +61,18 @@ def model_train(X_train_pc, X_val_pc, X_test_pc, y_train, y_val, y_test):
     y_val_pred_xgb_smoted = xgb_smoted.predict(X_val_pc)
 
     #Metrics
-    logger.info("Getting metrics on validation set...")
+    logger.info("Getting F1 Score on validation set...")
     f1_smoted = f1_score(y_val_enc, y_val_pred_xgb_smoted, average="macro")
 
     logger.info(f"Validation Macro F1: {round(f1_smoted, 4)}")
-    logger.info(classification_report(y_val_enc, y_val_pred_xgb_smoted))
-    logger.info(confusion_matrix(y_val_enc, y_val_pred_xgb_smoted))
+
+    clasif_report = classification_report(y_val_enc, y_val_pred_xgb_smoted)
+    logger.info(clasif_report)
+
+    cm = confusion_matrix(y_val_enc, y_val_pred_xgb_smoted)
+    logger.info(confusion_matrix)
+
+    return f1_smoted, clasif_report, cm
 
 
     
