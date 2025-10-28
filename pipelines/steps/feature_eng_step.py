@@ -20,7 +20,7 @@ def feature_engineering_step(
         if isinstance(y_test, pd.DataFrame):
             y_test = y_test.squeeze()
 
-        print("✅ Finished feature engineering.")
+        print(" Finished feature engineering.")
         return (X_train, X_val, X_test, y_train, y_val, y_test)
 
     except Exception as e:

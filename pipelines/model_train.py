@@ -75,4 +75,5 @@ def model_train(X_train_pc, X_val_pc, X_test_pc, y_train, y_val, y_test):
     return f1_smoted, clasif_report, cm
 
 
+
     
